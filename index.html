@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深圳大鹏半岛自驾攻略 - 周末完美之旅</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 40px 0;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .weather-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .weather-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+        
+        .weather-day {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .weather-day h3 {
+            margin-bottom: 10px;
+        }
+        
+        .itinerary {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .day-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            background: #f8f9fa;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .day-title {
+            font-size: 1.5em;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #667eea;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -37px;
+            top: 20px;
+            width: 12px;
+            height: 12px;
+            background: #667eea;
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+        
+        .time {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1em;
+        }
+        
+        .location {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        
+        .description {
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .tips {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .tips-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 5px;
+        }
+        
+        .attractions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .attraction-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .attraction-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .attraction-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .attraction-info {
+            padding: 20px;
+        }
+        
+        .attraction-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .attraction-address {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .attraction-rating {
+            color: #f39c12;
+            font-weight: bold;
+        }
+        
+        .route-info {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .route-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .route-icon {
+            width: 40px;
+            height: 40px;
+            background: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌊 深圳大鹏半岛自驾攻略</h1>
+            <p>周五晚8点 - 周日下午2点 | 两晚完美之旅</p>
+        </div>
+
+        <div class="weather-card">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">🌤️ 周末天气预测</h2>
+            <div class="weather-info">
+                <div class="weather-day">
+                    <h3>周五（到达日）</h3>
+                    <p>☀️ 晴天</p>
+                    <p>27°C - 32°C</p>
+                    <p>微风 1-3级</p>
+                </div>
+                <div class="weather-day">
+                    <h3>周六（游玩日）</h3>
+                    <p>☀️ 晴天</p>
+                    <p>26°C - 33°C</p>
+                    <p>微风 1-3级</p>
+                </div>
+                <div class="weather-day">
+                    <h3>周日（返程日）</h3>
+                    <p>⛅ 多云</p>
+                    <p>26°C - 34°C</p>
+                    <p>微风 1-3级</p>
+                </div>
+            </div>
+            <div class="tips">
+                <div class="tips-title">🎯 天气提醒</div>
+                <p>周末天气绝佳！连续晴天，温度适宜，非常适合观日出和海边游玩。记得做好防晒措施，携带防晒霜、太阳帽和墨镜。</p>
+            </div>
+        </div>
+
+        <div class="itinerary">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #667eea;">📅 详细行程安排</h2>
+            
+            <div class="day-section">
+                <div class="day-title">周五晚 - 抵达与入住</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="time">20:00</div>
+                        <div class="location">🚗 深圳出发 → 大鹏半岛</div>
+                        <div class="description">从深圳市区自驾出发，沿深南大道→盐坝高速→坪西路，约1.5小时车程</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">21:30</div>
+                        <div class="location">🏨 办理入住</div>
+                        <div class="description">推荐住宿区域：西涌民宿区或较场尾民宿小镇，提前预订海景房</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">22:00</div>
+                        <div class="location">🍽️ 海鲜晚餐</div>
+                        <div class="description">品尝当地新鲜海鲜，推荐：潮汕渔港海鲜餐厅、西涌海鲜街</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-section">
+                <div class="day-title">周六 - 天文台日出 + 西涌玻璃海</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="time">04:30</div>
+                        <div class="location">🌅 深圳天文台看日出</div>
+                        <div class="description">提前1小时到达天文台，需要预约！绝佳观日出地点，俯瞰整个大鹏湾</div>
+                        <div class="tips">
+                            <div class="tips-title">⚠️ 重要提醒</div>
+                            <p>深圳市天文台需要提前在"深圳天文"微信公众号预约，每日限额300人，建议提前3-5天预约</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">07:30</div>
+                        <div class="location">🥐 早餐时光</div>
+                        <div class="description">天文台附近或西涌民宿区享用早餐，推荐：瑞幸咖啡、当地茶餐厅</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">09:00</div>
+                        <div class="location">🏖️ 西涌沙滩玻璃海</div>
+                        <div class="description">西涌4号沙滩，被誉为"深圳马尔代夫"，海水清澈见底，沙质细腻</div>
+                        <div class="tips">
+                            <div class="tips-title">🏊‍♂️ 游玩建议</div>
+                            <p>沙滩门票13元/人，可玩项目：游泳、沙滩排球、海上摩托、帆船体验</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">12:00</div>
+                        <div class="location">🍤 海鲜午餐</div>
+                        <div class="description">西涌海鲜街品尝当地特色：椒盐濑尿虾、清蒸石斑鱼、蒜蓉蒸扇贝</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">14:00</div>
+                        <div class="location">🚶‍♂️ 天文台栈道徒步</div>
+                        <div class="description">沿天文台栈道徒步，欣赏海蚀地貌和无敌海景，全程约2公里</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">16:30</div>
+                        <div class="location">🏛️ 大鹏所城</div>
+                        <div class="description">探访600年历史的明代海防古城，感受岭南古建筑文化</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">18:30</div>
+                        <div class="location">🌅 较场尾日落</div>
+                        <div class="description">较场尾海滩观赏绝美日落，拍照打卡圣地</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">19:30</div>
+                        <div class="location">🍽️ 晚餐 + 夜生活</div>
+                        <div class="description">较场尾民宿小镇特色餐厅，晚上可体验酒吧、咖啡厅</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-section">
+                <div class="day-title">周日 - 深度探索与返程</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="time">08:00</div>
+                        <div class="location">🍳 慵懒早餐</div>
+                        <div class="description">民宿享用早餐，感受慢生活节奏</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">09:30</div>
+                        <div class="location">🌊 东涌沙滩</div>
+                        <div class="description">相比西涌更原生态的海滩，人少一些，适合拍照和安静享受</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">11:00</div>
+                        <div class="location">🎣 杨梅坑</div>
+                        <div class="description">周星驰《美人鱼》拍摄地，沿海栈道风景绝美</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">12:30</div>
+                        <div class="location">🍜 午餐时光</div>
+                        <div class="description">杨梅坑附近餐厅，品尝当地客家菜和海鲜</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">14:00</div>
+                        <div class="location">🚗 返程回深</div>
+                        <div class="description">结束愉快的大鹏之旅，预计16:00-16:30到达深圳市区</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="attractions">
+            <h2 style="grid-column: 1/-1; text-align: center; margin-bottom: 20px; color: #667eea;">🏖️ 精华景点推荐</h2>
+            
+            <div class="attraction-card">
+                <div class="attraction-image">🌅 深圳天文台</div>
+                <div class="attraction-info">
+                    <div class="attraction-name">深圳市天文台</div>
+                    <div class="attraction-address">大鹏新区南澳街道西涌社区天文路</div>
+                    <div class="attraction-rating">⭐ 4.8分</div>
+                    <p>最佳日出观赏点，360°俯瞰大鹏湾，网红打卡圣地</p>
+                </div>
+            </div>
+            
+            <div class="attraction-card">
+                <div class="attraction-image">🏖️ 西涌沙滩</div>
+                <div class="attraction-info">
+                    <div class="attraction-name">西涌旅游度假区</div>
+                    <div class="attraction-address">大鹏新区南澳街道西涌社区</div>
+                    <div class="attraction-rating">⭐ 4.5分</div>
+                    <p>深圳最美沙滩，玻璃海水质，水上项目丰富</p>
+                </div>
+            </div>
+            
+            <div class="attraction-card">
+                <div class="attraction-image">🏛️ 大鹏所城</div>
+                <div class="attraction-info">
+                    <div class="attraction-name">大鹏所城</div>
+                    <div class="attraction-address">大鹏新区南门东路</div>
+                    <div class="attraction-rating">⭐ 4.6分</div>
+                    <p>600年明代海防古城，岭南古建筑群，历史文化深厚</p>
+                </div>
+            </div>
+            
+            <div class="attraction-card">
+                <div class="attraction-image">🏖️ 较场尾</div>
+                <div class="attraction-info">
+                    <div class="attraction-name">较场尾</div>
+                    <div class="attraction-address">大鹏街道鹏城村</div>
+                    <div class="attraction-rating">⭐ 4.4分</div>
+                    <p>民宿小镇风情，文艺气息浓厚，日落美景</p>
+                </div>
+            </div>
+            
+            <div class="attraction-card">
+                <div class="attraction-image">🌊 东涌沙滩</div>
+                <div class="attraction-info">
+                    <div class="attraction-name">东涌沙滩</div>
+                    <div class="attraction-address">大鹏新区南澳街道</div>
+                    <div class="attraction-rating">⭐ 4.3分</div>
+                    <p>原生态海滩，人少景美，适合摄影和独处</p>
+                </div>
+            </div>
+            
+            <div class="attraction-card">
+                <div class="attraction-image">🎬 杨梅坑</div>
+                <div class="attraction-info">
+                    <div class="attraction-name">杨梅坑</div>
+                    <div class="attraction-address">大鹏新区南澳街道</div>
+                    <div class="attraction-rating">⭐ 4.5分</div>
+                    <p>《美人鱼》拍摄地，沿海栈道风景如画</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="route-info">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">🗺️ 自驾路线指南</h2>
+            
+            <div class="route-item">
+                <div class="route-icon">🚗</div>
+                <div>
+                    <strong>深圳市区 → 大鹏半岛</strong><br>
+                    深南大道 → 盐坝高速 → 坪西路 → 大鹏新区（约1.5小时）
+                </div>
+            </div>
+            
+            <div class="route-item">
+                <div class="route-icon">🅿️</div>
+                <div>
+                    <strong>停车建议</strong><br>
+                    西涌：P7地面停车场（天文台）、西涌沙滩停车场<br>
+                    较场尾：P1-P4多个停车场可选
+                </div>
+            </div>
+            
+            <div class="route-item">
+                <div class="route-icon">⛽</div>
+                <div>
+                    <strong>加油站</strong><br>
+                    西涌、大鹏镇区均有中石化、中石油加油站
+                </div>
+            </div>
+        </div>
+
+        <div class="itinerary">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">💡 实用贴士</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div class="tips">
+                    <div class="tips-title">📱 预约提醒</div>
+                    <ul style="margin-left: 20px;">
+                        <li>天文台需提前3-5天预约（深圳天文公众号）</li>
+                        <li>部分沙滩需预约停车</li>
+                        <li>节假日建议提前订房</li>
+                    </ul>
+                </div>
+                
+                <div class="tips">
+                    <div class="tips-title">🎒 装备清单</div>
+                    <ul style="margin-left: 20px;">
+                        <li>防晒用品：防晒霜、遮阳帽、墨镜</li>
+                        <li>游泳装备：泳衣、泳镜、防水袋</li>
+                        <li>摄影设备：相机、充电宝、三脚架</li>
+                    </ul>
+                </div>
+                
+                <div class="tips">
+                    <div class="tips-title">🍽️ 美食推荐</div>
+                    <ul style="margin-left: 20px;">
+                        <li>西涌海鲜街：椒盐濑尿虾、清蒸石斑</li>
+                        <li>较场尾：文艺咖啡厅、特色餐厅</li>
+                        <li>大鹏镇：客家菜、茶餐厅</li>
+                    </ul>
+                </div>
+                
+                <div class="tips">
+                    <div class="tips-title">💰 费用预算</div>
+                    <ul style="margin-left: 20px;">
+                        <li>住宿：海景民宿500-800元/晚</li>
+                        <li>餐饮：人均100-150元/餐</li>
+                        <li>门票：天文台免费、沙滩13-20元</li>
+                        <li>油费：往返约200-300元</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>🌊 愿您拥有一个完美的大鹏半岛周末之旅！记得分享美照哦 📸</p>
+    </div>
+
+    <script>
+        // 添加一些交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.attraction-card, .timeline-item');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.transition = 'transform 0.3s ease';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
